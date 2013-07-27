@@ -1,1 +1,1 @@
-echo Server directory.
+Server Directory
