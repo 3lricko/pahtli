@@ -1,1 +1,1 @@
-IOs app directory.
+iOS app directory.
