@@ -1,1 +1,1 @@
-Server Directory
+Server directory.
