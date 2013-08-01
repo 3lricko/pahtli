@@ -1,0 +1,17 @@
+<!DOCTYPE html/>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Upload a photo to your account below.</p>
+    <form method='post' enctype='multipart/form-data'>
+    	  <p><input type='text', name='product[name]', placeholder='Name'/></p>
+      	  <p><input type='file', name='product[image]'/></p>
+      	  <p><textarea  name='product[description]' cols='40' rows='10'>Description </textarea></p>
+	  <p><input type='submit', value='updatex'/></p>
+    </form>
+  </body>
+</html>

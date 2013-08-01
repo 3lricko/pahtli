@@ -1,0 +1,26 @@
+<!DOCTYPE html/>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Products</h1>
+    <p>Product Catalog.</p>
+    <div id="photos">
+      <table>
+	<% products.forEach(function(product) { %>
+	<tr>
+	  <td>
+	    <div class="photo">
+              <h2><b><%=product.name%></h2></b>
+              <img src='<%=product.image%>'/>
+	      <p class="p-box"><%-product.description%></p>
+            </div>
+	  </td>
+	</tr>
+	<% }) %>
+      </table>
+    </div>
+  </body>
+</html>
