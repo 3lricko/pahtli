@@ -1,43 +1,40 @@
-  <!DOCTYPE html/>
-  <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Products</h1>
-    <p>Product Catalog.</p>
+  <!doctype html>
+  <html ng-app>
+    <head>
+      <meta charset="utf-8">
+      <title><%= title %></title>
+      <link rel='stylesheet' href='/stylesheets/style.css' />
+      <link rel="stylesheet" href="/stylesheets/app.css">
+      <link rel="stylesheet" href="/stylesheets/bootstrap2.css">
+      <script src="/lib/angular.js"></script>
+      <script src="/js/controllers.js"></script>
+    </head>
+    <body ng-controller="ProductListCtrl">
+      
+      <div class="container-fluid">
+        <div class="row-fluid">
 
-    <label>Search: </label><input type='text' id='searchBox'/>
-    <h1><a href="/admin/products/update">+</a></h1>
-    <div id="photos">
-      <table>
-       <% products.forEach(function(product) { %>
-       <tr>
-         <td>
-           <div class="photo">
-            <h1><a href="/admin/products/delete?name=<%=product.name%>">-</a></h1>  
-            <h2><b><%=product.name%></h2></b>
-            <img src='<%=product.image%>'/>
-            <p class="p-box"><%-product.description%></p>
+          <div class="span2">
+            <!--Sidebar content-->
+            <h1>Search: </h1><input ng-model="query"/>
+            <h1><a href="/admin/products/update">+</a></h1>
           </div>
-        </td>
-      </tr>
-      <% }) %>
-    </table>
-  </div>
-</body>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"  type="text/javascript"></script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#searchBox').keydown(function(e) {
+          <div class="span10">
+            <ul class="phones">
+              <li ng-repeat="product in products | filter:query" class="thumbnail">
+                <div  class="thumb">
+                  <a href="#/products/{{product.name}}"><img ng-src="{{product.image}}"></a>
+                  <a href="#"><img src="/images/delete.png" height="25px" width="25px" align="left"  ng-click="deleteProduct(product.name)" /></a>
+                </div>  
+                <h1><a href="#/products/{{product.name}}">{{product.name}}</a></h1>
+                <div >{{product.description}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {{out}}
+    </body>
 
-      if (e.which === 13) {
-        window.location = "/admin/products?name="+ $('#searchBox').val();
-        return false;
-      }
-    });
-  });
-</script>
 </html>

@@ -25,6 +25,14 @@ var fs = require('fs');
 var join = path.join;
 var url = require('url');
 
+exports.json = function(req, res, next){
+
+	Product.find({},function(err, products){
+		if(err) return next(err);
+		res.send(products);
+	});
+}
+
 exports.list = function(req, res, next){
 
 	var query = {};
@@ -72,11 +80,13 @@ exports.submit = function(dir){
 
 exports.delete = function(req, res, next){
 
+	console.log("delete");
 	var params = url.parse(req.url, true).query;
 
 	Product.find({'name' : params.name}).remove();
 
-	res.redirect(PRD_URL);
+	//res.redirect(PRD_URL);
+	res.send("ok");
 };
 
 
