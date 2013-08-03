@@ -16,6 +16,9 @@ products.push({
 });
 */
 
+//CONSTANTS
+const PRD_URL = '/admin/products/';
+
 var Product = require('../../models/product');
 var path = require('path');
 var fs = require('fs');
@@ -24,52 +27,60 @@ var url = require('url');
 
 exports.list = function(req, res, next){
 
-    Product.find({}, function(err, products){
-	if(err) return next(err);
-	res.render('products/products', { title : 'Products', products : products });
-    });
+	var query = {};
+	var name = url.parse(req.url,true).query.name;
+	console.log(name);
+	if(name != null)
+		query = {name : new RegExp(name, "i")};
+	console.log(query);
+	Product.find(query, function(err, products){
+		if(err) return next(err);
+		res.render('products/products', { title : 'Products', products : products });
+	});
 
 };
 
 exports.form = function(req, res){
 
-    res.render('products/productsUpdateForm', { title : 'Product Form' });
+	res.render('products/productsUpdateForm', { title : 'Product Form' });
 };
 
 exports.submit = function(dir){
 
-    console.log('dir ' + dir);
-    return function(req, res, next){
-	var img = req.files.product.image;
-	var name = req.body.product.name || img.name;
-	var description = req.body.product.description;
-	var path = join(dir, img.name);
+	return function(req, res, next){
+		
+		var img = req.files.product.image;
+		var name = req.body.product.name || img.name;
+		var description = req.body.product.description;
+		var path = join(dir, img.name);
 
-	fs.rename(img.path, path, function(err){ 
+		fs.rename(img.path, path, function(err){ 
 
-	    if(err)return next(err);
+			if(err)return next(err);
 
-	    Product.create({
-		name: name,
-			image: '/images/products/' + img.name,
-			description: description },
-			   function(err){
-			       if(err) return next(err);
-			       res.redirect('/'); 
-			   });
-	    });
-    };
+			Product.create({
+				name: name,
+				image: '/images/products/' + img.name,
+				description: description },
+				function(err){
+					if(err) return next(err);
+					res.redirect(PRD_URL); 
+				});
+		});
+	};
 };
 
 exports.delete = function(req, res, next){
 
-    var params = url.parse(req.url, true).query;
+	var params = url.parse(req.url, true).query;
 
-    Product.find({'name' : params.name}).remove();
+	Product.find({'name' : params.name}).remove();
+
+	res.redirect(PRD_URL);
 };
 
 
-    
+
 
 
 
