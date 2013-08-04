@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app>
+<html lang="en" ng-app="pahtliApp">
 <head>
 
     <!-- start: Meta -->
@@ -43,10 +43,12 @@
 
     <script src="/lib/angular.js"></script>
     <script src="/js/controllers.js"></script>
+    <script src="/js/clientApp.js"></script>
+
 
 </head>
 
-<body ng-controller="IndexCtrl">
+<body>
 <!-- start: Header -->
 <div class="navbar">
 <div class="navbar-inner">
@@ -360,7 +362,7 @@
                     <li><a class="submenu" href="tasks.html"><i class="icon-tasks"></i><span class="hidden-tablet"> Tasks</span></a></li>
                 </ul>
             </li>
-            <li><a href="#" ng-click="showProductContent()"><i class="icon-edit"></i><span class="hidden-tablet"> Forms</span></a></li>
+            <li><a href="#/admin/products/listView" ><i class="icon-edit"></i><span class="hidden-tablet"> Forms</span></a></li>
             <li><a href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Charts</span></a></li>
             <li><a href="typography.html"><i class="icon-font"></i><span class="hidden-tablet"> Typography</span></a></li>
             <li><a href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet"> Gallery</span></a></li>
@@ -375,7 +377,7 @@
 <!-- end: Main Menu -->
 
 <!-- start: Content -->
-<div id="content" class="span10" ng-bind-html-unsafe="content"></div>
+<div id="content" ng-view class="span10"></div>
 <!-- end: Content -->
 
 </div><!--/fluid-row-->

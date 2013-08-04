@@ -68,7 +68,7 @@ exports.submit = function(dir){
 
 			Product.create({
 				name: name,
-				image: '/images/products/' + img.name,
+				image: '/img/products/' + img.name,
 				description: description },
 				function(err){
 					if(err) return next(err);

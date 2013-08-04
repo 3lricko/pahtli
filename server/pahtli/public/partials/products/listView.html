@@ -11,7 +11,7 @@
 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
 <div class="row-fluid">
     <div class="span12">
-        <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input type="text" aria-controls="DataTables_Table_0"></label>
+        <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input type="text" ng-model="query"></label>
         </div>
     </div>
 </div>
@@ -27,7 +27,7 @@
     </thead>
 
     <tbody role="alert" aria-live="polite" aria-relevant="all">
-    <tr class="odd" ng-repeat="product in products">
+    <tr class="odd" ng-repeat="product in products | filter: query">
         <td class=" sorting_1"><img src="{{product.image}}" /></td>
         <td class="center ">{{product.name}}</td>
         <td class="center ">{{product.description}}</td>
@@ -35,32 +35,13 @@
             <span class="label label-success">Active</span>
         </td>
         <td class="center ">
-            <a class="btn btn-success" href="#" ng-click="showProductContent()">
+            <a class="btn btn-success" href="#" >
                 <i class="icon-zoom-in "></i>
             </a>
             <a class="btn btn-info" href="#">
                 <i class="icon-edit "></i>
             </a>
-            <a class="btn btn-danger" href="#">
-                <i class="icon-trash "></i>
-            </a>
-        </td>
-    </tr>
-    <tr class="even">
-        <td class=" sorting_1">Adinah Ralph</td>
-        <td class="center ">2012/06/01</td>
-        <td class="center ">Admin</td>
-        <td class="center ">
-            <span class="label">Inactive</span>
-        </td>
-        <td class="center ">
-            <a class="btn btn-success" href="#">
-                <i class="icon-zoom-in "></i>
-            </a>
-            <a class="btn btn-info" href="#">
-                <i class="icon-edit "></i>
-            </a>
-            <a class="btn btn-danger" href="#">
+            <a class="btn btn-danger" href="#" ng-click="deleteProduct(product.name)">
                 <i class="icon-trash "></i>
             </a>
         </td>
