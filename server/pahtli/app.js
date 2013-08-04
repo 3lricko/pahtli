@@ -33,8 +33,8 @@ app.get('/admin/products/json/', products.json);
 app.get('/admin/products/update', products.form);
 app.post('/admin/products/update', products.submit(app.get('productImages'))); 
 app.get('/admin/products/delete', products.delete);
-
-
+//VIEWS
+app.get('/admin/products/listView', products.listView);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

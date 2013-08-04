@@ -23,5 +23,17 @@ var loadJsonProducts = function(scope, http){
     });
 }
 
+function IndexCtrl($scope, $http){
+
+	$scope.showProductContent = function(){
+
+		$http.get('/admin/products/listView').success(function(data) {
+	   			
+    		$scope.content = data;
+		
+  		});
+	}
+}
+
 
 

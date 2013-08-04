@@ -89,6 +89,11 @@ exports.delete = function(req, res, next){
 	res.send("ok");
 };
 
+exports.listView = function(req, res, next){
+
+	res.render('products/listView', { title : 'Products' });
+}
+
 
 
 
