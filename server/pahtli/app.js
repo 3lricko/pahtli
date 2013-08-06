@@ -33,6 +33,7 @@ app.get('/admin/products/json/', products.json);
 app.get('/admin/products/update', products.form);
 app.post('/admin/products/update', products.submit(app.get('productImages'))); 
 app.get('/admin/products/delete', products.delete);
+app.post('/admin/products', products.create);
 //VIEWS
 app.get('/admin/products/listView', products.listView);
 

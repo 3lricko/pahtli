@@ -78,6 +78,12 @@ exports.submit = function(dir){
 	};
 };
 
+exports.create = function(req, res, next){
+
+	console.log(req.body);
+	res.json(true);
+};
+
 exports.delete = function(req, res, next){
 
 	console.log("delete");

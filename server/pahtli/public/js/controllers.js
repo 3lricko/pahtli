@@ -33,23 +33,15 @@ function ProductListCtrl($scope, $http){
 function ProductFormCtrl($scope, $http){
 
 	var emptyProduct = {
-		name: 'Name',
-		image: 'image url',
-		description: 'Description',
-		prescription: "0 30,00,30 10,18,20 ? *SUN,TUE,WED,THU,FRI,SAT*",
-		prescriptionQuantities: [1,1,1],
-		days: [],
-		prescriptions: [
-		{
-			id:0,
-			time: new Date(0,0,0,12,0,0,0),
-			quantity: 0
-		}]
+		name: '',
+		imageUrl: '',
+		description: '',
+		prescription: "0 0 0 ? * ? *",
+		prescriptionQuantities: [1]		
 	};
 
 	
 	$scope.product = emptyProduct;
-	$scope.out = "x";
 	$scope.productDays = parseDays(emptyProduct.prescription);
 	$scope.prescriptionHours = parseHours(emptyProduct.prescription, emptyProduct.prescriptionQuantities);
 
@@ -72,6 +64,18 @@ function ProductFormCtrl($scope, $http){
 		var indexToDelete = prescriptions.indexOf(filter[0]);
 		if(indexToDelete >=0)
 			prescriptions.splice(indexToDelete,1);
+	}
+
+	$scope.submit = function(){
+
+
+
+		$http.post("/admin/products/", $scope.product).success(function(data){
+    		//Callback function here.
+    		//"data" is the response from the server.
+			$scope.out = "server response = " + data;
+		});
+		
 	}
 }
 
@@ -105,14 +109,14 @@ var parseHours = function(prescription, prescriptionQuantities){
 	var mins = prescriptionItems[1].split(",");
 	var hours = prescriptionItems[2].split(",");
 
-	if(mins.length > hours.length || hours.length > prescriptionQuantities.length) throw WRONG_CRON_ERROR;
+	if(mins.length > hours.length || prescriptionQuantities.length > hours.length ) throw WRONG_CRON_ERROR;
 
 	for(var i = 0; i < hours.length; i++){
 
 		prescriptionHours.push({
 			id: generateId()+i,
 			time: hours[i] + ":" + (i < mins.length ? mins[i] : mins[mins.lenght-1]),
-			quantity: prescriptionQuantities[i]
+			 quantity: i < prescriptionQuantities.length ? prescriptionQuantities[i] : prescriptionQuantities[prescriptionQuantities.length-1]
 		});
 	}
 
