@@ -41,68 +41,20 @@
 				<div class="control-group">
 					<label class="control-label">Dates: </label>
 					<div class="controls">
-						<label class="checkbox inline span1">
+						<label class="checkbox inline span1" ng-repeat="day in productDays">
 							<div class="">
 								<span>
-									<input type="checkbox" value="Mo">
+									<input type="checkbox" value="day.label" ng-checked="day.checked">
 								</span>
 							</div>
-							Mo
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="Tu">
-								</span>
-							</div>
-							Tu
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="We">
-								</span>
-							</div>
-							We
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="Th">
-								</span>
-							</div>
-							Th
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="Fr">
-								</span>
-							</div>
-							Fr
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="Sa">
-								</span>
-							</div>
-							Sa
-						</label>
-						<label class="checkbox inline span1">
-							<div class="">
-								<span>
-									<input type="checkbox" value="Su">
-								</span>
-							</div>
-							Su
+							{{day.label}}
 						</label>
 					</div>
-				</div>
+				</div>	
 
 				<div class="control-group">
 					<label class="control-label" for="appendedPrependedInput">Prescription:</label>
-					<div class="controls span12">
+					<div class="controls">
 						<table class="table span6">
 							<thead class="span12">
 								<tr>
@@ -112,7 +64,7 @@
 								</tr>
 							</thead>   
 							<tbody class="span12">
-								<tr ng-repeat="prescription in product.prescriptions">
+								<tr ng-repeat="prescription in prescriptionHours">
 									<td class="span12">
 										<input class="span12" type="text" value="{{prescription.time}}">
 									</td>
