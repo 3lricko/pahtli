@@ -33,7 +33,7 @@
 
     <tbody role="alert" aria-live="polite" aria-relevant="all">
     <tr class="odd" ng-repeat="product in products | filter: query">
-        <td class=" sorting_1"><img src="{{product.image}}" /></td>
+        <td class=" sorting_1"><img src="{{product.imageUrl}}" /></td>
         <td class="center ">{{product.name}}</td>
         <td class="center ">{{product.description}}</td>
         <td class="center ">
@@ -46,13 +46,15 @@
             <a class="btn btn-info" href="#">
                 <i class="icon-edit "></i>
             </a>
-            <a class="btn btn-danger" href="#" ng-click="deleteProduct(product.name)">
+            <a class="btn btn-danger" href="#" ng-click="deleteProduct(product._id)">
                 <i class="icon-trash "></i>
             </a>
         </td>
     </tr>
+    {{out}}
     </tbody>
 </table>
+
 
 </div>
 </div>

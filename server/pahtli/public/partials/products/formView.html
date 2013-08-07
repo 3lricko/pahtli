@@ -40,16 +40,65 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label">Dates: </label>
+					<label class="control-label">Days: </label>
 					<div class="controls">
-						<label class="checkbox inline span1" ng-repeat="day in productDays">
+						<label class="checkbox inline span1" >
 							<div class="">
 								<span>
-									<input type="checkbox" ng-model="day[$index]">
+									<input type="checkbox" ng-model="product.prescription.sun">
 								</span>
 							</div>
-							{{day.label}}
+							Sun
 						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.mon">
+								</span>
+							</div>
+							Mon
+						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.tue">
+								</span>
+							</div>
+							Tue
+						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.wed">
+								</span>
+							</div>
+							Wed
+						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.thu">
+								</span>
+							</div>
+							Thu
+						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.fri">
+								</span>
+							</div>
+							Fri
+						</label>
+						<label class="checkbox inline span1" >
+							<div class="">
+								<span>
+									<input type="checkbox" ng-model="product.prescription.sat">
+								</span>
+							</div>
+							Sat
+						</label>
+						
 					</div>
 				</div>	
 
@@ -65,15 +114,16 @@
 								</tr>
 							</thead>   
 							<tbody class="span12">
-								<tr ng-repeat="prescription in prescriptionHours">
+								<tr ng-repeat="hour in product.prescription.hours">
 									<td class="span12">
-										<input class="span12" type="text" ng-model="prescription.time">
+										<input class="span12" type="text" ng-model="hour.time">
+										
 									</td>
 									<td class="span12">
-										<input class="span12" type="text" ng-model="prescription.quantity">
+										<input class="span12" type="text" ng-model="hour.qty">
 									</td>      
 									<td class="span12">
-										<a class="btn btn-danger" ng-click="deletePrescription(prescription.id)">
+										<a class="btn btn-danger" ng-click="deletePrescriptionHour(hour.id)">
 											<i class="icon-trash "></i>
 										</a>
 									</td>        
@@ -81,7 +131,7 @@
 							</tbody>
 						</table>
 						<div class="span1">
-							<a class="btn btn-success"  ng-click="addPrescription()" >
+							<a class="btn btn-success"  ng-click="addPrescriptionHour()" >
 								<i class="icon-plus "></i>
 							</a>
 						</div>
@@ -89,7 +139,7 @@
 				</div>
 				<div class="form-actions">
 				<button  ng-click="submit()" ng-disabled="form.$invalid || isUnchanged(product)" class="btn btn-primary">Save changes</button>
-					<button class="btn">Cancel</button>
+					<button class="btn" ng-click="cancel()">Cancel</button>
 				</div>
 
 			</fieldset>

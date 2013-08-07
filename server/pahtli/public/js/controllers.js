@@ -19,9 +19,11 @@ function ProductListCtrl($scope, $http){
 		});
 	}
 
-	$scope.deleteProduct = function(productName){
+	$scope.deleteProduct = function(id){
 
-		$http.get('/admin/products/delete?name='+productName).success(function(data) {
+		$scope.out = id;
+
+		$http.get('/admin/products/delete?id='+id).success(function(data) {
 
 			loadJsonProducts($scope, $http);
 
@@ -32,55 +34,69 @@ function ProductListCtrl($scope, $http){
 
 function ProductFormCtrl($scope, $http){
 
+	var prescription = {
+
+		sun: false,
+		mon: false,
+		tue: false,
+		wed: false,
+		thu: false,
+		fri: false,
+		sat: false,
+		hours: [{
+			id:0,
+			time:null,
+			qty: 1
+		}]
+	};
 	var emptyProduct = {
 		name: '',
 		imageUrl: '',
 		description: '',
-		prescription: "0 0 0 ? * ? *",
-		prescriptionQuantities: [1]		
+		prescription: prescription
 	};
 
 	
 	$scope.product = emptyProduct;
-	$scope.productDays = parseDays(emptyProduct.prescription);
-	$scope.prescriptionHours = parseHours(emptyProduct.prescription, emptyProduct.prescriptionQuantities);
+	
+	$scope.addPrescriptionHour = function(){
 
-	$scope.addPrescription = function(){
-
-		var prescriptions =  $scope.prescriptionHours;
-		prescriptions.push({
+		var hours =  $scope.product.prescription.hours;
+		hours.push({
 			id: generateId(),
 			time: "",
-			quantity:1
+			qty:1
 		});
 	}
 
-	$scope.deletePrescription = function(prescriptionId){
+	$scope.deletePrescriptionHour = function(hourId){
 
-		var prescriptions = $scope.prescriptionHours;
-		var filter = prescriptions.filter(function(item){return item.id == prescriptionId;});
+		var hours = $scope.product.prescription.hours;
+		var filtered = hours.filter(function(item){return item.id == hourId;});
 		
-		if(filter == null || filter.length == 0) return;
-		var indexToDelete = prescriptions.indexOf(filter[0]);
-		if(indexToDelete >=0)
-			prescriptions.splice(indexToDelete,1);
+		if(filtered == null || filtered.length == 0) return;
+		var iToDelete = hours.indexOf(filtered[0]);
+		if(iToDelete >= 0)
+			hours.splice(iToDelete,1);
 	}
 
 	$scope.submit = function(){
 
-
-
-		$http.post("/admin/products/", $scope.product).success(function(data){
-    		//Callback function here.
-    		//"data" is the response from the server.
-			$scope.out = "server response = " + data;
+		$http.post("/admin/products", $scope.product).success(function(data){
+    		$scope.out = "server response = " + data;
 		});
 		
+	}
+
+	$scope.cancel = function(){
+
+		$scope.out = $scope.product.prescription.hours;
 	}
 }
 
 
 /*Utils*/
+
 var loadJsonProducts = function(scope, http){
 
 	http.get('/admin/products/json/').success(function(data) {
@@ -88,52 +104,9 @@ var loadJsonProducts = function(scope, http){
 	});
 }
 
-var parseDays = function(prescription){
-
-	var prescriptionItems = parsePrescriptionItems(prescription);
-
-	return [ {label: "Sun", checked: prescriptionItems[4].indexOf("SUN") >= 0},
-		{label: "Mon", checked: prescriptionItems[4].indexOf("MON") >= 0 },
-		{label: "Tue", checked: prescriptionItems[4].indexOf("TUE") >= 0 },
-		{label: "Wed", checked: prescriptionItems[4].indexOf("WED") >= 0 },
-		{label: "Thu", checked: prescriptionItems[4].indexOf("THU") >= 0 },
-		{label: "Fri", checked: prescriptionItems[4].indexOf("FRI") >= 0 },
-		{label: "Sat", checked: prescriptionItems[4].indexOf("SAT") >= 0 }];
-}
-
-var parseHours = function(prescription, prescriptionQuantities){
-
-	var prescriptionHours = [];
-	var prescriptionItems = parsePrescriptionItems(prescription);
-
-	var mins = prescriptionItems[1].split(",");
-	var hours = prescriptionItems[2].split(",");
-
-	if(mins.length > hours.length || prescriptionQuantities.length > hours.length ) throw WRONG_CRON_ERROR;
-
-	for(var i = 0; i < hours.length; i++){
-
-		prescriptionHours.push({
-			id: generateId()+i,
-			time: hours[i] + ":" + (i < mins.length ? mins[i] : mins[mins.lenght-1]),
-			 quantity: i < prescriptionQuantities.length ? prescriptionQuantities[i] : prescriptionQuantities[prescriptionQuantities.length-1]
-		});
-	}
-
-	return prescriptionHours;
-}
-
 var generateId = function(){
 	return new Date().valueOf();
 }
 
-var parsePrescriptionItems = function(prescription){
-
-	var prescriptionItems = prescription.split(" ");
-	if(prescriptionItems.length < 5) throw WRONG_CRON_ERROR;
-
-	return prescriptionItems;
-
-}
 
 
