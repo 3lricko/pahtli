@@ -1,4 +1,4 @@
-
+'use strict'
 /*var products = [];
 
 products.push({
@@ -98,19 +98,26 @@ exports.create = function(req, res, next){
 
 		function(callback){
 
-			nimble.parallel([
-				function(pCallback){
-					download(req.body.imageUrl,pCallback,error);
-				},
-				function(pCallback){
-					persist(req.body, pCallback, error);
+			downloadImage(req.body, function(product, localImageUrl, err){
+
+				if(err) {
+					error.msg = true;
+				}else{
+					product.imageUrl = localImageUrl;
+					Product.create(product,function(err){
+						if(err) {
+							console.trace(err);
+							error.msg = true;
+						}else{
+							console.log("product created.");
+						}
+						callback();
+					});
 				}
-			],function(){
-				callback();
 			});
 		},
 		function(callback){
-			console.log("---------------------------------------------" + error.msg);
+			console.log("Has errors? " + error.msg);
 			res.json(error.msg == null ? true : false);
 			callback();		
 		}
@@ -136,31 +143,66 @@ exports.listView = function(req, res, next){
 
 /*Utils*/
 
-var download = function(uri, callback,error){
+var downloadImage = function(product, callback){
 	
-	request.head(uri, function(err, res, body){
+	var error;
+	var fileName;
 
-		if(err){ console.log(err); error.msg = true; }
-		try{
+	nimble.series([
 
-			console.log(res.headers['content-type'])
+		function(tc){
+			setTimeout(tc,15000);
+		},
+		function(internalCall){
+			request.head(product.imageUrl, function(err, res, body){
 
-			if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
+				if(err){ 
+					error = err;
+				}else{
+					try{
+						
+						if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
+						fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
+						var ws = fs.createWriteStream("./public/img/products/" + fileName);
+						ws.on('pipe', function(src) {
+						  console.error('something is piping into the writer');
+						  
+						});
+						ws.on('finish', function() {
+						  console.log('finish!');
+						  internalCall();
+						});
+						
+						var readable = request(product.imageUrl).pipe(ws);
+						/*console.log('voy a parar');	
+						readable.on('data', function(chunk) {
+						  console.log('got %d bytes of data', chunk.length);
+						});
+						readable.on('end', function() {
+						  console.log('there will be no more data.');
 
-			request(uri).pipe(fs.createWriteStream("./public/img/products/down.jpg"));
-
-		}catch(ex){
+						});*/
+						
+								
+					}catch(ex){
+						
+						error = ex;
+						console.trace(ex);
+					}
+				}
+				
+			});
+		},
+		function(internalCall){
 			
-			error.msg = true;
-			console.log('error ' + error.msg);
+			callback(product, "/img/products/" + fileName, error);	
+			internalCall();		
 		}
-		callback();
-	});
+	]);
 };
 
+
 var persist = function(product, callback, error){
-
-
 	
 	Product.create(product,function(err){
 		if(err) {

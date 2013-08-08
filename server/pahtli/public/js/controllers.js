@@ -32,7 +32,7 @@ function ProductListCtrl($scope, $http){
 	}
 }
 
-function ProductFormCtrl($scope, $http){
+function ProductFormCtrl($scope, $http, $location){
 
 	var prescription = {
 
@@ -84,6 +84,11 @@ function ProductFormCtrl($scope, $http){
 
 		$http.post("/admin/products", $scope.product).success(function(data){
     		$scope.out = "server response = " + data;
+    		if(data == "true"){
+    			$scope.out = "must redirect";
+    			$location.path("/admin/products/listView");
+    			
+    		}
 		});
 		
 	}
