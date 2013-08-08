@@ -18,6 +18,7 @@ products.push({
 
 //CONSTANTS
 var PRD_URL = '/admin/products/';
+var PRD_IMAGE_DIR = "./public/img/products/";
 
 var Product = require('../../models/product');
 var path = require('path');
@@ -91,8 +92,7 @@ exports.submit = function(dir){
 exports.create = function(req, res, next){
 
 	console.log(req.body);
-	console.log(req.body.prescription.hours[0]);
-
+	
 	var error = { msg: null};
 	nimble.series([
 
@@ -100,8 +100,10 @@ exports.create = function(req, res, next){
 
 			downloadImage(req.body, function(product, localImageUrl, err){
 
+				console.log("err = " + err);
 				if(err) {
 					error.msg = true;
+					callback();
 				}else{
 					product.imageUrl = localImageUrl;
 					Product.create(product,function(err){
@@ -121,7 +123,7 @@ exports.create = function(req, res, next){
 			res.json(error.msg == null ? true : false);
 			callback();		
 		}
-	]);
+		]);
 	
 };
 
@@ -130,10 +132,22 @@ exports.delete = function(req, res, next){
 	
 	var params = url.parse(req.url, true).query;
 	console.log("delete" + params.id);
-	Product.find({'_id' : params.id}).remove();
+	Product.findById(params.id, function(err, product){
 
-	//res.redirect(PRD_URL);
-	res.send("ok");
+		try{
+			fs.unlinkSync("./public" + product.imageUrl);
+		}catch(ex){
+			console.trace(ex);
+			res.send(ex);
+			return;
+		}
+		product.remove(function(err){
+
+			res.send(err ? err : "ok");
+			console.log("deleted");	
+		});	
+	});
+	
 };
 
 exports.listView = function(req, res, next){
@@ -148,62 +162,38 @@ var downloadImage = function(product, callback){
 	var error;
 	var fileName;
 
-	nimble.series([
+	request.head(product.imageUrl, function(err, res, body){
 
-		function(tc){
-			setTimeout(tc,15000);
-		},
-		function(internalCall){
-			request.head(product.imageUrl, function(err, res, body){
+		
+		try{
 
-				if(err){ 
-					error = err;
-				}else{
-					try{
-						
-						if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
-						fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
-						var ws = fs.createWriteStream("./public/img/products/" + fileName);
-						ws.on('pipe', function(src) {
-						  console.error('something is piping into the writer');
-						  
-						});
-						ws.on('finish', function() {
-						  console.log('finish!');
-						  internalCall();
-						});
-						
-						var readable = request(product.imageUrl).pipe(ws);
-						/*console.log('voy a parar');	
-						readable.on('data', function(chunk) {
-						  console.log('got %d bytes of data', chunk.length);
-						});
-						readable.on('end', function() {
-						  console.log('there will be no more data.');
+			if(err){ throw err;}
 
-						});*/
-						
-								
-					}catch(ex){
-						
-						error = ex;
-						console.trace(ex);
-					}
-				}
-				
-			});
-		},
-		function(internalCall){
+			if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
+			fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
+			var ws = fs.createWriteStream(PRD_IMAGE_DIR + fileName);
 			
-			callback(product, "/img/products/" + fileName, error);	
-			internalCall();		
-		}
-	]);
+			ws.on('finish', function() {
+				console.log('finish!');
+				callback(product, "/img/products/" + fileName, error);
+			});
+
+			var readable = request(product.imageUrl).pipe(ws);
+
+		}catch(ex){
+			error = ex;
+			console.trace(ex);
+			console.log("callback");
+			callback(null, null, error);
+		}		
+
+	});
+
 };
 
 
 var persist = function(product, callback, error){
-	
+
 	Product.create(product,function(err){
 		if(err) {
 			console.log(err);
@@ -214,7 +204,7 @@ var persist = function(product, callback, error){
 
 		callback();
 	});
-	
+
 
 };
 

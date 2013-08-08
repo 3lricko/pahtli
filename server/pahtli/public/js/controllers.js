@@ -2,6 +2,7 @@
 
 /*Constants*/
 var WRONG_CRON_ERROR = "Wrong cron configuration!";
+var notyError;
 
 /*Controllers*/
 
@@ -20,15 +21,18 @@ function ProductListCtrl($scope, $http){
 	}
 
 	$scope.deleteProduct = function(id){
-
-		$scope.out = id;
-
+		
 		$http.get('/admin/products/delete?id='+id).success(function(data) {
 
-			loadJsonProducts($scope, $http);
+			if(data == "ok"){
+				$.noty.close(notyError);
+				loadJsonProducts($scope, $http);
+			}
+			else
+				//notyError = angular.element('.custom_container').
+				notyError = noty({text: 'We are sorry, the product could not be deteled.', layout:'top', type:'error', timeout:false});
 
 		});
-
 	}
 }
 
