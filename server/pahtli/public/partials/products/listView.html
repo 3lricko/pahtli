@@ -35,15 +35,45 @@
                     <tr class="odd" ng-repeat="product in products | filter: query">
                         <td class=" sorting_1"><img src="{{product.imageUrl}}" /></td>
                         <td class="center ">{{product.name}}</td>
-                        <td class="center span12">{{product.description}}</td>
-                        <td class="center span6">
-                            <div class="label label-success" ><span ng-show="product.prescription.sun">Su</span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.mon">Mo </span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.tue">Tu </span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.wed">We </span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.thu">Th </span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.fri">Fr </span></div>
-                            <div class="label label-success" ><span ng-show="product.prescription.sat">Sa </span></div>
+                        <td class="center ">{{product.description}}</td>
+                        <td class="center ">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td style="background-color:transparent">
+                                            <div class="label label-success" ><span ng-show="product.prescription.sun">Su</span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.mon">Mo </span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.tue">Tu </span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.wed">We </span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.thu">Th </span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.fri">Fr </span></div>
+                                            <div class="label label-success" ><span ng-show="product.prescription.sat">Sa </span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            <table >
+                                                <thead >
+                                                    <tr >
+                                                        <th class="span12">Time</th>
+                                                        <th class="span12">Quantity</th>                         
+                                                    </tr>
+                                                </thead>
+                                                <tbody >
+                                                <tr ng-repeat="hour in product.prescription.hours">
+                                                        <td class="span12" style="background-color:transparent">
+                                                            <input class="span12" type="text" ng-model="hour.time">
+                                                        </td>
+                                                        <td class="span12" style="background-color:transparent">
+                                                            <input class="span12" type="text" ng-model="hour.qty">
+                                                        </td>  
+                                                    </tr>                         
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </td>
                         <td class="center ">
                             <a class="btn btn-info" ng-click="editProduct(product._id);">
