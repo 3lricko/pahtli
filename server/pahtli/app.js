@@ -30,8 +30,9 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/admin/products', products.list);
 app.get('/admin/products/json/', products.json);
+app.get('/admin/product/json/', products.getProductById);
 app.get('/admin/products/update', products.form);
-app.post('/admin/products/update', products.submit(app.get('productImages'))); 
+//app.post('/admin/products/update', products.submit(app.get('productImages'))); 
 app.get('/admin/products/delete', products.delete);
 app.post('/admin/products', products.create);
 //VIEWS

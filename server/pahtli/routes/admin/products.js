@@ -36,26 +36,25 @@ exports.json = function(req, res, next){
 	});
 };
 
+exports.getProductById = function(req, res, next){
+
+	var params = url.parse(req.url, true).query;
+	
+	Product.findById(params.id, function(err, product){
+		if(err) return next(err);
+		res.send(product);
+	});
+	
+
+};
+
 exports.list = function(req, res, next){
 
-	/*var query = {};
-	var name = url.parse(req.url,true).query.name;
-	console.log(name);
-	if(name != null)
-		query = {name : new RegExp(name, "i")};
-	console.log(query);
-	Product.find(query, function(err, products){
+	Product.find({}, function(err, products){
+		
 		if(err) return next(err);
-		res.render('products/products', { title : 'Products', products : products });
-	});*/
-
-Product.find({}, function(err, products){
-	if(err) return next(err);
-		//res.render('products/products', { title : 'Products', products : products });
-		console.log(products);
 		res.send(products);
 	});
-
 
 };
 
@@ -64,74 +63,72 @@ exports.form = function(req, res){
 	res.render('products/productsUpdateForm', { title : 'Product Form' });
 };
 
-exports.submit = function(dir){
-
-	return function(req, res, next){
-		
-		var img = req.files.product.image;
-		var name = req.body.product.name || img.name;
-		var description = req.body.product.description;
-		var path = join(dir, img.name);
-
-		fs.rename(img.path, path, function(err){ 
-
-			if(err)return next(err);
-
-			Product.create({
-				name: name,
-				image: '/img/products/' + img.name,
-				description: description },
-				function(err){
-					if(err) return next(err);
-					res.redirect(PRD_URL); 
-				});
-		});
-	};
-};
 
 exports.create = function(req, res, next){
 
-	console.log(req.body);
-	
-	var error = { msg: null};
-	nimble.series([
+	try{
+		console.log(req.body);
 
-		function(callback){
+		var error = { msg: null};
+		nimble.series([
 
-			downloadImage(req.body, function(product, localImageUrl, err){
+			function(callback){
 
-				console.log("err = " + err);
-				if(err) {
-					error.msg = true;
-					callback();
-				}else{
-					product.imageUrl = localImageUrl;
-					Product.create(product,function(err){
-						if(err) {
-							console.trace(err);
-							error.msg = true;
-						}else{
-							console.log("product created.");
-						}
+				downloadImage(req.body, function(product, localImageUrl, err){
+
+					if(err) {
+						error.msg = true;
 						callback();
+
+					}else{
+						product.imageUrl = localImageUrl;
+
+						Product.findById(product._id, function(err, existingPrd){
+
+							console.log("existingPrd = " + existingPrd);
+							if(err) error.msg = err;
+
+							if(existingPrd == null){//Insert
+								
+								Product.create(product,function(err){
+									if(err) {
+										error.msg = true;
+									}else{
+										console.log("product created.");
+									}
+									callback();
+								});
+
+							}else{//Update
+
+								existingPrd.name = product.name;
+								existingPrd.imageUrl = product.imageUrl;
+								existingPrd.description = product.description;
+								existingPrd.prescription = product.prescription;
+								existingPrd.save();
+								
+								callback();
+							}
 					});
-				}
-			});
-		},
-		function(callback){
-			console.log("Has errors? " + error.msg);
-			res.json(error.msg == null ? true : false);
-			callback();		
-		}
-		]);
-	
+					}
+				});
+			},
+			function(callback){
+				console.log("Has errors? " + error.msg);
+				res.json(error.msg == null ? true : false);
+				callback();		
+			}
+			]);
+}catch(ex){
+	console.trace(ex);
+}
+
 };
 
 exports.delete = function(req, res, next){
 
-	
 	var params = url.parse(req.url, true).query;
-	console.log("delete" + params.id);
+	console.log("delete" + url.parse(req.url, true).query.id);
 	Product.findById(params.id, function(err, product){
 
 		try{
@@ -162,15 +159,20 @@ var downloadImage = function(product, callback){
 	var error;
 	var fileName;
 
-	request.head(product.imageUrl, function(err, res, body){
+	if(fs.existsSync("./public/"+ product.imageUrl)){
+		callback(product, product.imageUrl, error);
+		return;
+	}
 
+	request.head(product.imageUrl, function(err, res, body){
 		
 		try{
 
 			if(err){ throw err;}
 
 			if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
-			fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
+
+				fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
 			var ws = fs.createWriteStream(PRD_IMAGE_DIR + fileName);
 			
 			ws.on('finish', function() {

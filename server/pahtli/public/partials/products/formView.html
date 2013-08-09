@@ -32,7 +32,7 @@
 				<div class="control-group">
 					<label class="control-label" for="prependedInput">Image URL: </label>
 					<div class="controls">
-						<input name="pImageUrl" class="span6" type="url" ng-model="product.imageUrl" required/>
+						<input name="pImageUrl" class="span6" type="text" ng-model="product.imageUrl" required/>
 						<div ng-show="form.pImageUrl.$dirty && form.pImageUrl.$invalid" class="control-group error help-inline">
 							<div class="help-inline">Invalid image URL.</div>
 						</div>
@@ -145,7 +145,7 @@
 			</fieldset>
 		</form>
 
-      out = {{out}}
+      out = {{product}}
     </style>
 	</div>
 </div><!--/span-->

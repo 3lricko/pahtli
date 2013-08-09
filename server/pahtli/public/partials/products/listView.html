@@ -26,7 +26,7 @@
         <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" style="width: 96px;">Image</th>
         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 161px;">Name</th>
         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 373px;">Description</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 127px;">Prescripton</th>
+        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 127px;">Prescription</th>
         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 249px;">Actions</th>
     </tr>
     </thead>
@@ -40,7 +40,7 @@
             <span class="label label-success">Active</span>
         </td>
         <td class="center ">
-            <a class="btn btn-info" href="#">
+            <a class="btn btn-info" ng-click="editProduct(product._id);">
                 <i class="icon-edit "></i>
             </a>
             <a class="btn btn-danger" ng-click="deleteProduct(product._id);" >

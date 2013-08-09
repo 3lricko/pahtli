@@ -6,9 +6,9 @@ var notyError;
 
 /*Controllers*/
 
-function ProductListCtrl($scope, $http){
+function ProductListCtrl($scope, $http, $whiteBoard, $location){
 
-
+	$scope.out = $whiteBoard.data;
 	loadJsonProducts($scope, $http);
 	
 	$scope.showProductContent = function(){
@@ -29,39 +29,22 @@ function ProductListCtrl($scope, $http){
 				loadJsonProducts($scope, $http);
 			}
 			else
-				//notyError = angular.element('.custom_container').
 				notyError = noty({text: 'We are sorry, the product could not be deteled.', layout:'top', type:'error', timeout:false});
 
 		});
 	}
+
+	$scope.editProduct = function(id){
+
+		$whiteBoard.data = id;
+		$location.path("/admin/products/formView");
+
+	}
 }
 
-function ProductFormCtrl($scope, $http, $location){
+function ProductFormCtrl($scope, $http, $whiteBoard, $location){
 
-	var prescription = {
-
-		sun: false,
-		mon: false,
-		tue: false,
-		wed: false,
-		thu: false,
-		fri: false,
-		sat: false,
-		hours: [{
-			id:0,
-			time:null,
-			qty: 1
-		}]
-	};
-	var emptyProduct = {
-		name: '',
-		imageUrl: '',
-		description: '',
-		prescription: prescription
-	};
-
-	
-	$scope.product = emptyProduct;
+	setProductInContext($whiteBoard, $scope, $http);
 	
 	$scope.addPrescriptionHour = function(){
 
@@ -87,12 +70,12 @@ function ProductFormCtrl($scope, $http, $location){
 	$scope.submit = function(){
 
 		$http.post("/admin/products", $scope.product).success(function(data){
-    		$scope.out = "server response = " + data;
-    		if(data == "true"){
-    			$scope.out = "must redirect";
-    			$location.path("/admin/products/listView");
-    			
-    		}
+			$scope.out = "server response = " + data;
+			if(data == "true"){
+				$scope.out = "must redirect";
+				$location.path("/admin/products/listView");
+
+			}
 		});
 		
 	}
@@ -115,6 +98,42 @@ var loadJsonProducts = function(scope, http){
 
 var generateId = function(){
 	return new Date().valueOf();
+}
+
+var setProductInContext = function(whiteBoard, scope, http){
+
+	if(whiteBoard.data == null){
+		//return an empty product
+		var prescription = {
+
+			sun: false,
+			mon: false,
+			tue: false,
+			wed: false,
+			thu: false,
+			fri: false,
+			sat: false,
+			hours: [{
+				id:0,
+				time:null,
+				qty: 1
+			}]
+		};
+		scope.product =  {
+			name: '',
+			imageUrl: '',
+			description: '',
+			prescription: prescription
+		};
+		
+	}else{
+
+		http.get('/admin/product/json/?id='+whiteBoard.data).success(function(data) {
+			scope.product = data;
+			whiteBoard.clean();
+		});
+	}
+
 }
 
 
