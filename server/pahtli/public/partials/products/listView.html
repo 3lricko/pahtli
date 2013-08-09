@@ -1,61 +1,67 @@
 <div class="box span12">
-<div class="box-header" data-original-title="">
-    <h2><i class="icon-user"></i><span class="break"></span>Products</h2>
-    <div class="box-icon">
-        <a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
-        <a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
-        <a href="#" class="btn-close"><i class="icon-remove"></i></a>
-    </div>
-</div>
-<div class="box-content">
-<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
-<div class="row-fluid">
-    <div class="span11">
-        <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input type="text" ng-model="query"></label>
+    <div class="box-header" data-original-title="">
+        <h2><i class="icon-user"></i><span class="break"></span>Products</h2>
+        <div class="box-icon">
+            <a href="#" class="btn-setting"><i class="icon-wrench"></i></a>
+            <a href="#" class="btn-minimize"><i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn-close"><i class="icon-remove"></i></a>
         </div>
     </div>
-    <div class="span1">
-        <a class="btn btn-success" href="#/admin/products/formView" >
-            <i class="icon-plus "></i>
-        </a>
+    <div class="box-content">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+            <div class="row-fluid">
+                <div class="span11">
+                    <div class="dataTables_filter" id="DataTables_Table_0_filter"><label>Search: <input type="text" ng-model="query"></label>
+                    </div>
+                </div>
+                <div class="span1">
+                    <a class="btn btn-success" href="#/admin/products/formView" >
+                        <i class="icon-plus "></i>
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered bootstrap-datatable datatable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" style="width: 96px;">Image</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 161px;">Name</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 373px;">Description</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status:     activate to sort column ascending" style="width: 127px;">Prescription</th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 249px;">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr class="odd" ng-repeat="product in products | filter: query">
+                        <td class=" sorting_1"><img src="{{product.imageUrl}}" /></td>
+                        <td class="center ">{{product.name}}</td>
+                        <td class="center span12">{{product.description}}</td>
+                        <td class="center span6">
+                            <div class="label label-success" ><span ng-show="product.prescription.sun">Su</span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.mon">Mo </span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.tue">Tu </span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.wed">We </span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.thu">Th </span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.fri">Fr </span></div>
+                            <div class="label label-success" ><span ng-show="product.prescription.sat">Sa </span></div>
+                        </td>
+                        <td class="center ">
+                            <a class="btn btn-info" ng-click="editProduct(product._id);">
+                                <i class="icon-edit "></i>
+                            </a>
+                            <a class="btn btn-danger" ng-click="deleteProduct(product._id);" >
+                                <i class="icon-trash "></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <div class="custom_container"></div>
+                    {{out}}
+                </tbody>
+            </table>
+
+
+        </div>
     </div>
-</div>
-<table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
-    <thead>
-    <tr role="row">
-        <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" style="width: 96px;">Image</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 161px;">Name</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 373px;">Description</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 127px;">Prescription</th>
-        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 249px;">Actions</th>
-    </tr>
-    </thead>
-
-    <tbody role="alert" aria-live="polite" aria-relevant="all">
-    <tr class="odd" ng-repeat="product in products | filter: query">
-        <td class=" sorting_1"><img src="{{product.imageUrl}}" /></td>
-        <td class="center ">{{product.name}}</td>
-        <td class="center ">{{product.description}}</td>
-        <td class="center ">
-            <span class="label label-success">Active</span>
-        </td>
-        <td class="center ">
-            <a class="btn btn-info" ng-click="editProduct(product._id);">
-                <i class="icon-edit "></i>
-            </a>
-            <a class="btn btn-danger" ng-click="deleteProduct(product._id);" >
-                <i class="icon-trash "></i>
-            </a>
-        </td>
-    </tr>
-    <div class="custom_container"></div>
-    {{out}}
-    </tbody>
-</table>
-
-
-</div>
-</div>
 </div>
 
 
