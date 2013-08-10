@@ -1,22 +1,6 @@
 'use strict'
-/*var products = [];
 
-products.push({
-    
-    name : 'BiOmega',
-    image : 'http://shop.usana.com/media/Shop/2012Rebrand/US/Products/lg-122-US-Biomega.jpg',
-    description : 'Provides advanced and guaranteed levels of EPA and DHA, two long-chain omega-3 fatty acids important for memory and learning,Supports sound cardiovascular, immune, health and joint health'
-});
-
-products.push({
-    
-    name : 'Body Rox',
-    image : 'http://shop.usana.com/media/Shop/2012Rebrand/US/Products/lg-104-US-BodyRox.jpg',
-    description : 'Provides advanced and guaranteed levels of EPA and DHA, two long-chain omega-3 fatty acids important for memory and learning,Supports sound cardiovascular, immune, health and joint health'
-});
-*/
-
-//CONSTANTS
+// CONSTANTS
 var PRD_URL = '/admin/products/';
 var PRD_IMAGE_DIR = "./public/img/products/";
 
@@ -64,42 +48,42 @@ exports.form = function(req, res){
 };
 
 
-exports.create = function(req, res, next){
+exports.create = function(req, res, next){ 
 
-	try{
-		console.log(req.body);
+	console.log(req.body);
 
-		var error = { msg: null};
-		nimble.series([
+	var error = { msg: null};
+	nimble.series([
 
-			function(callback){
+		function(callback){
 
-				downloadImage(req.body, function(product, localImageUrl, err){
+			downloadImage(req.body, function(product, localImageUrl, err){
 
-					if(err) {
-						error.msg = true;
-						callback();
+				if(err) {
+					error.msg = err;
+					callback();
 
-					}else{
-						product.imageUrl = localImageUrl;
+				}else{
+					product.imageUrl = localImageUrl;
 
-						Product.findById(product._id, function(err, existingPrd){
+					Product.findById(product._id, function(err, existingPrd){
 
-							console.log("existingPrd = " + existingPrd);
-							if(err) error.msg = err;
+						console.log("existingPrd = " + existingPrd);
+						if(err) error.msg = err;
 
-							if(existingPrd == null){//Insert
+							if(existingPrd == null){// Insert
 								
 								Product.create(product,function(err){
 									if(err) {
-										error.msg = true;
+										console.trace(err);
+										error.msg = err;
 									}else{
 										console.log("product created.");
 									}
 									callback();
 								});
 
-							}else{//Update
+							}else{// Update
 
 								existingPrd.name = product.name;
 								existingPrd.imageUrl = product.imageUrl;
@@ -109,19 +93,16 @@ exports.create = function(req, res, next){
 								
 								callback();
 							}
-					});
-					}
-				});
-			},
-			function(callback){
-				console.log("Has errors? " + error.msg);
-				res.json(error.msg == null ? true : false);
-				callback();		
-			}
-			]);
-}catch(ex){
-	console.trace(ex);
-}
+						});
+				}
+			});
+		},
+		function(callback){
+			
+			res.send((error.msg == null ? "ok" : error.msg.message));
+			callback();		
+		}
+		]);
 
 };
 
@@ -152,7 +133,26 @@ exports.listView = function(req, res, next){
 	res.render('products/listView', { title : 'Products' });
 };
 
-/*Utils*/
+/* Utils */
+
+var toType = function(obj) {
+	  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+}
+
+
+var toString = function(obj) {
+	var x;
+	var str = '{ ';
+
+	if (obj == null)
+		return '';
+	for (x in obj) {
+		str += x + ": " + obj + ", ";
+	}
+	str = str.substring(0, str.length - 2);
+	str += " }";
+	return str;
+}
 
 var downloadImage = function(product, callback){
 	
@@ -180,7 +180,7 @@ var downloadImage = function(product, callback){
 				callback(product, "/img/products/" + fileName, error);
 			});
 
-			var readable = request(product.imageUrl).pipe(ws);
+			request(product.imageUrl).pipe(ws);
 
 		}catch(ex){
 			error = ex;
@@ -199,7 +199,7 @@ var persist = function(product, callback, error){
 	Product.create(product,function(err){
 		if(err) {
 			console.log(err);
-			error.msg = true;
+			error.msg = err;
 		}else{
 			console.log("product created.");
 		}

@@ -33,10 +33,10 @@
 
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr class="odd" ng-repeat="product in products | filter: query">
-                        <td class=" sorting_1"><img src="{{product.imageUrl}}" /></td>
-                        <td class="center ">{{product.name}}</td>
-                        <td class="center ">{{product.description}}</td>
-                        <td class="center ">
+                        <td class=" sorting_1" width="10%"><img src="{{product.imageUrl}}" /></td>
+                        <td class="center " width="10%">{{product.name}}</td>
+                        <td class="center " width="50%" ng-bind-html-unsafe="product.description"></td>
+                        <td class="center " width="20%">
                             <table>
                                 <tbody>
                                     <tr>
@@ -75,7 +75,7 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td class="center ">
+                        <td class="center " width="10%">
                             <a class="btn btn-info" ng-click="editProduct(product._id);">
                                 <i class="icon-edit "></i>
                             </a>
