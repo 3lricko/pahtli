@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/pahtli_db');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/pahtli_db');
 
 var schema = new mongoose.Schema({
 
