@@ -3,6 +3,7 @@
 // CONSTANTS
 var PRD_URL = '/admin/products/';
 var PRD_IMAGE_DIR = "./public/img/products/";
+var S3_BUCKET = 'pahtli/img/prd';
 
 var Product = require('../../models/product');
 var path = require('path');
@@ -11,6 +12,8 @@ var join = path.join;
 var url = require('url');
 var request = require('request');
 var nimble = require('nimble');
+
+var fAws = require('../../foundation/aws');
 
 exports.json = function(req, res, next){
 
@@ -57,14 +60,24 @@ exports.create = function(req, res, next){
 
 		function(callback){
 
-			downloadImage(req.body, function(product, localImageUrl, err){
+            fAws.copy(req.body.imageUrl, S3_BUCKET, function(err,toUrl){
+
+                console.log("copy end.");
+                //TODO fix callback
+
+			//downloadImage(req.body, function(product, localImageUrl, err){
 
 				if(err) {
 					error.msg = err;
 					callback();
 
 				}else{
-					product.imageUrl = localImageUrl;
+
+                    var product = req.body;
+                    product.imageUrl = toUrl;
+
+                    console.log(product);
+					product.imageUrl = toUrl;
 
 					Product.findById(product._id, function(err, existingPrd){
 
@@ -98,7 +111,8 @@ exports.create = function(req, res, next){
 			});
 		},
 		function(callback){
-			
+
+            console.log("service finished.");
 			res.send((error.msg == null ? "ok" : error.msg.message));
 			callback();		
 		}
