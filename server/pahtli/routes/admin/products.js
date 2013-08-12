@@ -17,209 +17,200 @@ var fAws = require('../../foundation/aws');
 
 exports.json = function(req, res, next){
 
-	Product.find({},function(err, products){
-		if(err) return next(err);
-		res.send(products);
-	});
+    Product.find({},function(err, products){
+        if(err) return next(err);
+        res.send(products);
+    });
 };
 
 exports.getProductById = function(req, res, next){
 
-	var params = url.parse(req.url, true).query;
-	
-	Product.findById(params.id, function(err, product){
-		if(err) return next(err);
-		res.send(product);
-	});
-	
+    var params = url.parse(req.url, true).query;
+
+    Product.findById(params.id, function(err, product){
+        if(err) return next(err);
+        res.send(product);
+    });
+
 
 };
 
 exports.list = function(req, res, next){
 
-	Product.find({}, function(err, products){
-		
-		if(err) return next(err);
-		res.send(products);
-	});
+    Product.find({}, function(err, products){
+
+        if(err) return next(err);
+        res.send(products);
+    });
 
 };
 
 exports.form = function(req, res){
 
-	res.render('products/productsUpdateForm', { title : 'Product Form' });
+    res.render('products/productsUpdateForm', { title : 'Product Form' });
 };
 
 
-exports.create = function(req, res, next){ 
+exports.create = function(req, res, next){
 
-	console.log(req.body);
+    console.log(req.body);
 
-	var error = { msg: null};
-	nimble.series([
+    var error = { msg: null};
+    nimble.series([
 
-		function(callback){
+        function(callback){
 
-            fAws.copy(req.body.imageUrl, S3_BUCKET, function(err,toUrl){
+            fAws.copyToS3(req.body.imageUrl, S3_BUCKET, function(err,toUrl){
 
-                console.log("copy end.");
-                //TODO fix callback
+                if(err){ log.error(err); return callback(err); }
 
-			//downloadImage(req.body, function(product, localImageUrl, err){
+                var product = req.body;
+                product.imageUrl = toUrl;
 
-				if(err) {
-					error.msg = err;
-					callback();
+                console.log(product);
+                product.imageUrl = toUrl;
 
-				}else{
+                Product.findById(product._id, function(err, existingPrd){
 
-                    var product = req.body;
-                    product.imageUrl = toUrl;
+                    console.log("existingPrd = " + existingPrd);
+                    if(err) error.msg = err;
 
-                    console.log(product);
-					product.imageUrl = toUrl;
+                    if(existingPrd == null){// Insert
 
-					Product.findById(product._id, function(err, existingPrd){
+                        Product.create(product,function(err){
+                            if(err) {
+                                console.trace(err);
+                                error.msg = err;
+                            }else{
+                                console.log("product created.");
+                            }
+                            callback();
+                        });
 
-						console.log("existingPrd = " + existingPrd);
-						if(err) error.msg = err;
+                    }else{// Update
 
-							if(existingPrd == null){// Insert
-								
-								Product.create(product,function(err){
-									if(err) {
-										console.trace(err);
-										error.msg = err;
-									}else{
-										console.log("product created.");
-									}
-									callback();
-								});
+                        existingPrd.name = product.name;
+                        existingPrd.imageUrl = product.imageUrl;
+                        existingPrd.description = product.description;
+                        existingPrd.prescription = product.prescription;
+                        existingPrd.save();
 
-							}else{// Update
+                        callback();
+                    }
+                });
 
-								existingPrd.name = product.name;
-								existingPrd.imageUrl = product.imageUrl;
-								existingPrd.description = product.description;
-								existingPrd.prescription = product.prescription;
-								existingPrd.save();
-								
-								callback();
-							}
-						});
-				}
-			});
-		},
-		function(callback){
+            });
+        },
+        function(callback){
 
             console.log("service finished.");
-			res.send((error.msg == null ? "ok" : error.msg.message));
-			callback();		
-		}
-		]);
+            res.send((error.msg == null ? "ok" : error.msg.message));
+            callback();
+        }
+    ]);
 
 };
 
 exports.delete = function(req, res, next){
 
-	var params = url.parse(req.url, true).query;
-	console.log("delete" + url.parse(req.url, true).query.id);
-	Product.findById(params.id, function(err, product){
+    var params = url.parse(req.url, true).query;
+    console.log("delete" + url.parse(req.url, true).query.id);
+    Product.findById(params.id, function(err, product){
 
-		try{
-			fs.unlinkSync("./public" + product.imageUrl);
-		}catch(ex){
-			console.trace(ex);
-			res.send(ex);
-			return;
-		}
-		product.remove(function(err){
+        try{
+            fs.unlinkSync("./public" + product.imageUrl);
+        }catch(ex){
+            console.trace(ex);
+            res.send(ex);
+            return;
+        }
+        product.remove(function(err){
 
-			res.send(err ? err : "ok");
-			console.log("deleted");	
-		});	
-	});
-	
+            res.send(err ? err : "ok");
+            console.log("deleted");
+        });
+    });
+
 };
 
 exports.listView = function(req, res, next){
 
-	res.render('products/listView', { title : 'Products' });
+    res.render('products/listView', { title : 'Products' });
 };
 
 /* Utils */
 
 var toType = function(obj) {
-	  return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+    return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
 }
 
 
 var toString = function(obj) {
-	var x;
-	var str = '{ ';
+    var x;
+    var str = '{ ';
 
-	if (obj == null)
-		return '';
-	for (x in obj) {
-		str += x + ": " + obj + ", ";
-	}
-	str = str.substring(0, str.length - 2);
-	str += " }";
-	return str;
+    if (obj == null)
+        return '';
+    for (x in obj) {
+        str += x + ": " + obj + ", ";
+    }
+    str = str.substring(0, str.length - 2);
+    str += " }";
+    return str;
 }
 
 var downloadImage = function(product, callback){
-	
-	var error;
-	var fileName;
 
-	if(fs.existsSync("./public/"+ product.imageUrl)){
-		callback(product, product.imageUrl, error);
-		return;
-	}
+    var error;
+    var fileName;
 
-	request.head(product.imageUrl, function(err, res, body){
-		
-		try{
+    if(fs.existsSync("./public/"+ product.imageUrl)){
+        callback(product, product.imageUrl, error);
+        return;
+    }
 
-			if(err){ throw err;}
+    request.head(product.imageUrl, function(err, res, body){
 
-			if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
+        try{
 
-				fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
-			var ws = fs.createWriteStream(PRD_IMAGE_DIR + fileName);
-			
-			ws.on('finish', function() {
-				console.log('finish!');
-				callback(product, "/img/products/" + fileName, error);
-			});
+            if(err){ throw err;}
 
-			request(product.imageUrl).pipe(ws);
+            if(res.headers['content-type'].indexOf('image') < 0) { throw 'Invalid image.' }
 
-		}catch(ex){
-			error = ex;
-			console.trace(ex);
-			console.log("callback");
-			callback(null, null, error);
-		}		
+            fileName = new Date().valueOf() + "." + res.headers['content-type'].split("/")[1];
+            var ws = fs.createWriteStream(PRD_IMAGE_DIR + fileName);
 
-	});
+            ws.on('finish', function() {
+                console.log('finish!');
+                callback(product, "/img/products/" + fileName, error);
+            });
+
+            request(product.imageUrl).pipe(ws);
+
+        }catch(ex){
+            error = ex;
+            console.trace(ex);
+            console.log("callback");
+            callback(null, null, error);
+        }
+
+    });
 
 };
 
 
 var persist = function(product, callback, error){
 
-	Product.create(product,function(err){
-		if(err) {
-			console.log(err);
-			error.msg = err;
-		}else{
-			console.log("product created.");
-		}
+    Product.create(product,function(err){
+        if(err) {
+            console.log(err);
+            error.msg = err;
+        }else{
+            console.log("product created.");
+        }
 
-		callback();
-	});
+        callback();
+    });
 
 
 };
