@@ -5,14 +5,18 @@
     <ignored path="pahtli.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/a.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376183113268" ignored="false" />
-    <file path="/products.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376270846057" ignored="false" />
+    <file path="/products.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376277151302" ignored="false" />
     <file path="/tests3.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376190756581" ignored="false" />
     <file path="/JavaScript File.txt.ft" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376183324887" ignored="false" />
     <file path="/Html.txt.ft" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376183388021" ignored="false" />
     <file path="/Html5.txt.ft" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376183398712" ignored="false" />
-    <file path="/aws.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376270992657" ignored="false" />
+    <file path="/aws.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376278437634" ignored="false" />
     <file path="/a.dummy" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376184844324" ignored="false" />
     <file path="/logger.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376268716587" ignored="false" />
+    <file path="/productDao.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376277091959" ignored="false" />
+    <file path="/fragment.js2" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376271314204" ignored="false" />
+    <file path="/util.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376276931951" ignored="false" />
+    <file path="/app.js" changelist="0a5bd8be-c62f-4407-b746-bf363bb6b389" time="1376276095423" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,10 +77,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="0" selection-start="1325" selection-end="1325" vertical-scroll-proportion="0.0">
+            <state line="26" column="0" selection-start="674" selection-end="674" vertical-scroll-proportion="0.68485916">
               <folding />
             </state>
           </provider>
@@ -85,25 +89,36 @@
       <file leaf-file-name="products.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/admin/products.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="89" column="61" selection-start="2211" selection-end="2211" vertical-scroll-proportion="-68.46154">
+            <state line="57" column="20" selection-start="1236" selection-end="1236" vertical-scroll-proportion="-10.307693">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aws.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="productDao.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dao/productDao.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="24" selection-start="826" selection-end="826" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#58#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="aws.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/foundation/aws.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="41" selection-start="831" selection-end="831" vertical-scroll-proportion="0.3939394">
+            <state line="37" column="52" selection-start="1042" selection-end="1042" vertical-scroll-proportion="-28.461538">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logger.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/foundation/logger.js">
+      <file leaf-file-name="util.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/foundation/util.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
+            <state line="25" column="18" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -119,13 +134,15 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/js/clientApp.js" />
         <option value="$PROJECT_DIR$/tests3.js" />
         <option value="$PROJECT_DIR$/foundation/aws/aws.js" />
         <option value="$PROJECT_DIR$/foundation/logger.js" />
+        <option value="$PROJECT_DIR$/foundation/util.js" />
+        <option value="$PROJECT_DIR$/dao/productDao.js" />
         <option value="$PROJECT_DIR$/routes/admin/products.js" />
         <option value="$PROJECT_DIR$/foundation/aws.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -142,26 +159,81 @@
             <id />
           </State>
           <State>
+            <id>Android Lint</id>
+          </State>
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Code style issues</id>
+          </State>
+          <State>
+            <id>Data flow issues</id>
+          </State>
+          <State>
+            <id>Data flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>FlexUnit inspections</id>
+          </State>
+          <State>
+            <id>GPath inspectionsGroovy</id>
+          </State>
+          <State>
             <id>General</id>
           </State>
           <State>
-            <id>GeneralJavaScript</id>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>JBoss Seam issues</id>
+          </State>
+          <State>
+            <id>JUnit issues</id>
+          </State>
+          <State>
+            <id>Java language level migration aids</id>
           </State>
           <State>
             <id>JavaScript</id>
           </State>
           <State>
+            <id>Naming ConventionsGroovy</id>
+          </State>
+          <State>
+            <id>Naming conventions</id>
+          </State>
+          <State>
+            <id>Naming conventionsJavaScript</id>
+          </State>
+          <State>
+            <id>Numeric issues</id>
+          </State>
+          <State>
+            <id>Performance issues</id>
+          </State>
+          <State>
+            <id>Probable bugs</id>
+          </State>
+          <State>
+            <id>Probable bugsGroovy</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
+          <State>
+            <id>SQL</id>
+          </State>
+          <State>
             <id>UI Form Problems</id>
+          </State>
+          <State>
+            <id>Web Services</id>
           </State>
           <State>
             <id>XPath</id>
           </State>
         </expanded-state>
-        <selected-state>
-          <State>
-            <id>JSUnresolvedVariable</id>
-          </State>
-        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -222,7 +294,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pahtli" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pahtli" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -237,6 +327,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="foundation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pahtli" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pahtli" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dao" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -505,13 +609,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1325" selection-end="1325" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/clientApp.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="1" selection-start="32" selection-end="32" vertical-scroll-proportion="0.1010101">
@@ -519,23 +616,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/foundation/logger.js">
+    <entry file="file://$PROJECT_DIR$/foundation/util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
+        <state line="25" column="18" selection-start="367" selection-end="367" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dao/productDao.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="24" selection-start="826" selection-end="826" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#58#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/admin/products.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="61" selection-start="2211" selection-end="2211" vertical-scroll-proportion="-68.46154">
+        <state line="57" column="20" selection-start="1236" selection-end="1236" vertical-scroll-proportion="-10.307693">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/foundation/aws.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="41" selection-start="831" selection-end="831" vertical-scroll-proportion="0.3939394">
+        <state line="37" column="52" selection-start="1042" selection-end="1042" vertical-scroll-proportion="-28.461538">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="674" selection-end="674" vertical-scroll-proportion="0.68485916">
           <folding />
         </state>
       </provider>

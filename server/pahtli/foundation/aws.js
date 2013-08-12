@@ -8,34 +8,49 @@
 var request = require('request');
 var AWS = require('aws-sdk');
 var http = require('http');
-var log = require('./logger');
+var util = require('./util');
 
 //CONSTANTS
 
 exports.copyToS3 = function(fromUrl, bucket, callback){
 
-    request.head(fromUrl, function(err, res){
+    try{
 
-        if(err){ log.error(err); return callback(err);}
+        //if it's already a in the bucket...
+        if(fromUrl.indexOf(bucket) > 0) return callback(null, fromUrl);
 
-        var contentType = res.headers['content-type'];
-        if(contentType == null || contentType.indexOf('image') < 0) { return callback(new Error('Invalid image.')); }
+        request.head(fromUrl, function(err, res){
 
-        var fileName = new Date().valueOf() + "." + contentType.split("/")[1];
+            try{
 
-        http.get(fromUrl, function(res){
-            var chunks = [];
+                if(err){ util.error(err); return callback(err);}
 
-            res.on('data', function(chunk){
-                chunks.push(chunk);
-            });
-            res.on('end', function(){
+                var contentType = res.headers['content-type'];
+                if(contentType == null || contentType.indexOf('image') < 0) { return callback(new Error('Invalid image.')); }
 
-                module.exports.uploadToS3(bucket, fileName, 'public-read', contentType, Buffer.concat(chunks), callback);
-            });
+                var fileName = new Date().valueOf() + "." + contentType.split("/")[1];
 
-        });
+                var req = http.get(fromUrl, function(res){
+
+                    try{
+                        var chunks = [];
+                        req.on('error', function(err) {
+                            util.error(err); return callback(err);
+                        });
+
+                        res.on('data', function(chunk){
+                            chunks.push(chunk);
+                        });
+                        res.on('end', function(){
+                            module.exports.uploadToS3(bucket, fileName, 'public-read', contentType, Buffer.concat(chunks), callback);
+                        });
+                    }catch(ex) { util.error(ex); callback(ex); }
+                });
+
+            }catch(ex) { util.error(ex); callback(ex); }
     });
+
+    }catch(ex) { util.error(ex); callback(ex); }
 };
 
 exports.uploadToS3 = function(bucket, fileName, ACL, contentType, buffer, callback){
@@ -44,12 +59,13 @@ exports.uploadToS3 = function(bucket, fileName, ACL, contentType, buffer, callba
     var params = {Bucket: bucket, Key: fileName, Body: buffer, ACL: ACL,
         ContentType: contentType  };
 
-    s3.putObject(params, function(err){
-
-        if(err){ log.error(err); return callback(err);  }
-
+    try{
         var toUrl = s3.endpoint.href + bucket + "/" + fileName;
-        return callback(null, toUrl);
-    });
+        s3.putObject(params, function(err){
 
-}
+            if(err){ util.error(err); return callback(err);  }
+
+            return callback(null, toUrl);
+        });
+    }catch(ex) { util.error(ex); callback(ex); }
+};

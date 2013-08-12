@@ -12,8 +12,9 @@ var join = path.join;
 var url = require('url');
 var request = require('request');
 var nimble = require('nimble');
-
 var fAws = require('../../foundation/aws');
+var productDao = require('../../dao/productDao');
+var util = require('../../foundation/util');
 
 exports.json = function(req, res, next){
 
@@ -50,64 +51,24 @@ exports.form = function(req, res){
     res.render('products/productsUpdateForm', { title : 'Product Form' });
 };
 
+exports.create = function(req, res){
 
-exports.create = function(req, res, next){
+    try{
 
-    console.log(req.body);
+        fAws.copyToS3(req.body.imageUrl, S3_BUCKET, function(err,toUrl){
 
-    var error = { msg: null};
-    nimble.series([
+            if(err){ util.error(err); util.serviceResponse(res,err); return; }
 
-        function(callback){
+            var product = req.body;
+            product.imageUrl = toUrl;
+            productDao.save(product, function(err){
 
-            fAws.copyToS3(req.body.imageUrl, S3_BUCKET, function(err,toUrl){
-
-                if(err){ log.error(err); return callback(err); }
-
-                var product = req.body;
-                product.imageUrl = toUrl;
-
-                console.log(product);
-                product.imageUrl = toUrl;
-
-                Product.findById(product._id, function(err, existingPrd){
-
-                    console.log("existingPrd = " + existingPrd);
-                    if(err) error.msg = err;
-
-                    if(existingPrd == null){// Insert
-
-                        Product.create(product,function(err){
-                            if(err) {
-                                console.trace(err);
-                                error.msg = err;
-                            }else{
-                                console.log("product created.");
-                            }
-                            callback();
-                        });
-
-                    }else{// Update
-
-                        existingPrd.name = product.name;
-                        existingPrd.imageUrl = product.imageUrl;
-                        existingPrd.description = product.description;
-                        existingPrd.prescription = product.prescription;
-                        existingPrd.save();
-
-                        callback();
-                    }
-                });
-
+                if(err){ util.error(err); }
+                util.serviceResponse(res, err);
             });
-        },
-        function(callback){
+        });
 
-            console.log("service finished.");
-            res.send((error.msg == null ? "ok" : error.msg.message));
-            callback();
-        }
-    ]);
+    }catch(ex) { util.error(ex); }
 
 };
 

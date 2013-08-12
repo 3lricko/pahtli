@@ -7,7 +7,9 @@ var express = require('express')
 , routes = require('./routes')
 , products = require('./routes/admin/products')// ADMIN MODULE
 , http = require('http')
-, path = require('path');
+, path = require('path')
+, util = require('./foundation/util');
+
 
 var app = express();
 
@@ -17,11 +19,12 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('productImages', __dirname + '/public/img/products');
 app.use(express.favicon());
-app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.logger('dev'));
+
 
 app.configure('development', function(){
     app.use(express.errorHandler());
@@ -38,6 +41,12 @@ app.post('/admin/products', products.create);
 //VIEWS
 app.get('/admin/products/listView', products.listView);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+process.on('uncaughtException', function(err) {
+    util.fatal( " UNCAUGHT EXCEPTION " );
+    util.fatal( "[Inside 'uncaughtException' event] " + err.stack || err.message );
 });
+
+http.createServer(app).listen(app.get('port'), function(){
+  util.info('Express server listening on port ' + app.get('port'));
+});
+
