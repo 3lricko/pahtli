@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4599BA2817BB5AFB00ED5DB4 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = 4599BA2717BB5AFB00ED5DB4 /* Product.m */; };
+		4599BA2C17BB64D600ED5DB4 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4599BA2B17BB64D600ED5DB4 /* ProductCell.xib */; };
+		4599BA3017BB653B00ED5DB4 /* ProductCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4599BA2F17BB653B00ED5DB4 /* ProductCellViewController.m */; };
+		4599BA3517BB692A00ED5DB4 /* ProductsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4599BA3417BB692A00ED5DB4 /* ProductsTableViewController.m */; };
+		4599BA3817BB6C7E00ED5DB4 /* DALC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4599BA3717BB6C7E00ED5DB4 /* DALC.m */; };
 		45B52FC917AA2699006F30C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B52FC817AA2699006F30C4 /* UIKit.framework */; };
 		45B52FCB17AA2699006F30C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B52FCA17AA2699006F30C4 /* Foundation.framework */; };
 		45B52FCD17AA2699006F30C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B52FCC17AA2699006F30C4 /* CoreGraphics.framework */; };
@@ -22,6 +27,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4599BA2617BB5AFB00ED5DB4 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		4599BA2717BB5AFB00ED5DB4 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		4599BA2B17BB64D600ED5DB4 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
+		4599BA2E17BB653B00ED5DB4 /* ProductCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductCellViewController.h; sourceTree = "<group>"; };
+		4599BA2F17BB653B00ED5DB4 /* ProductCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductCellViewController.m; sourceTree = "<group>"; };
+		4599BA3317BB692A00ED5DB4 /* ProductsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductsTableViewController.h; sourceTree = "<group>"; };
+		4599BA3417BB692A00ED5DB4 /* ProductsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductsTableViewController.m; sourceTree = "<group>"; };
+		4599BA3617BB6C7E00ED5DB4 /* DALC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALC.h; sourceTree = "<group>"; };
+		4599BA3717BB6C7E00ED5DB4 /* DALC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALC.m; sourceTree = "<group>"; };
 		45B52FC517AA2699006F30C4 /* ControlsPOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlsPOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B52FC817AA2699006F30C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		45B52FCA17AA2699006F30C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -55,6 +69,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4599BA2417BB5A9800ED5DB4 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA3617BB6C7E00ED5DB4 /* DALC.h */,
+				4599BA3717BB6C7E00ED5DB4 /* DALC.m */,
+			);
+			name = Engine;
+			sourceTree = "<group>";
+		};
+		4599BA2517BB5AE400ED5DB4 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA2617BB5AFB00ED5DB4 /* Product.h */,
+				4599BA2717BB5AFB00ED5DB4 /* Product.m */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		4599BA2917BB643900ED5DB4 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA2A17BB648A00ED5DB4 /* Xibs */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		4599BA2A17BB648A00ED5DB4 /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA2B17BB64D600ED5DB4 /* ProductCell.xib */,
+			);
+			name = Xibs;
+			sourceTree = "<group>";
+		};
+		4599BA2D17BB64FF00ED5DB4 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA3217BB690600ED5DB4 /* Tables */,
+				4599BA3117BB68FB00ED5DB4 /* Cells */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		4599BA3117BB68FB00ED5DB4 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA2E17BB653B00ED5DB4 /* ProductCellViewController.h */,
+				4599BA2F17BB653B00ED5DB4 /* ProductCellViewController.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		4599BA3217BB690600ED5DB4 /* Tables */ = {
+			isa = PBXGroup;
+			children = (
+				4599BA3317BB692A00ED5DB4 /* ProductsTableViewController.h */,
+				4599BA3417BB692A00ED5DB4 /* ProductsTableViewController.m */,
+			);
+			name = Tables;
+			sourceTree = "<group>";
+		};
 		45B52FBC17AA2698006F30C4 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +160,10 @@
 		45B52FCE17AA2699006F30C4 /* ControlsPOC */ = {
 			isa = PBXGroup;
 			children = (
+				4599BA2D17BB64FF00ED5DB4 /* ViewControllers */,
+				4599BA2917BB643900ED5DB4 /* Cells */,
+				4599BA2517BB5AE400ED5DB4 /* Objects */,
+				4599BA2417BB5A9800ED5DB4 /* Engine */,
 				45B52FD717AA2699006F30C4 /* AppDelegate.h */,
 				45B52FD817AA2699006F30C4 /* AppDelegate.m */,
 				45B52FE017AA2699006F30C4 /* MainStoryboard_iPhone.storyboard */,
@@ -167,6 +246,7 @@
 				45B52FDF17AA2699006F30C4 /* Default-568h@2x.png in Resources */,
 				45B52FE217AA2699006F30C4 /* MainStoryboard_iPhone.storyboard in Resources */,
 				45B52FE517AA2699006F30C4 /* MainStoryboard_iPad.storyboard in Resources */,
+				4599BA2C17BB64D600ED5DB4 /* ProductCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,6 +260,10 @@
 				45B52FD517AA2699006F30C4 /* main.m in Sources */,
 				45B52FD917AA2699006F30C4 /* AppDelegate.m in Sources */,
 				45B52FE817AA2699006F30C4 /* ViewController.m in Sources */,
+				4599BA2817BB5AFB00ED5DB4 /* Product.m in Sources */,
+				4599BA3017BB653B00ED5DB4 /* ProductCellViewController.m in Sources */,
+				4599BA3517BB692A00ED5DB4 /* ProductsTableViewController.m in Sources */,
+				4599BA3817BB6C7E00ED5DB4 /* DALC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +396,7 @@
 				45B52FED17AA2699006F30C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
